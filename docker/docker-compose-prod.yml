@@ -19,6 +19,8 @@ services:
       - DJANGO_DB_PASSWORD=pnp-manager #!!MUST BE THE SAME AS IN POSTGRES_PASSWORD!! Change both together
       - DJANGO_DB_HOST=database #!!MUST BE THE SAME AS SERVICE NAME. DEFAULT database!! Change both environments together as well as depends_on
       - DJANGO_DB_PORT=5432 #default port of postgres. Only change, if you changed the port of the database or are using a different database.
+      - DJANGO_SERVER_ENVIRONMENT=dev #needed in dev, because in prod no static files are served without nginx 
+
     networks:
       - docker-network
     depends_on: 
