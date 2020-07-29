@@ -1,0 +1,27 @@
+.mycontent{
+  padding-top: 100px;
+ border: 10px solid rgba(104, 104, 104, 0.568);
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+  background: #0e0c1b;
+  margin: 0;
+  color: #b1b0b9;
+}
+
+
+#note {
+  position: absolute;
+  color: rgb(247, 255, 203);
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  margin: auto;
+  text-align: center;
+  user-select: none;
+  font-family: Arial;
+}

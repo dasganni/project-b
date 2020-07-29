@@ -1,0 +1,67 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% load bootstrap4 %}
+{% block content  %}
+
+
+
+    <script type="text/javascript" src='{% static "js/jquery-3.4.1.min.js" %}'></script>
+    <script type="text/javascript" src="{% static 'js/mapCanvas.js' %}"></script>
+    <link href='{% static "css/map.css" %}' rel="stylesheet" />
+
+
+
+    {% for image in map_images %}
+
+    {{ image.map_image.url }}
+
+    {% endfor %}
+
+    <div class="container">
+        <h1>Upload to the Database</h1>
+        <form method="POST" enctype="multipart/form-data" class="form">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+            <button type="submit" class="btn btn-primary">Upload</button>
+            {% endbuttons %}
+        </form>
+    </div>
+
+
+
+    <div id=big_content>
+        <div id="selection_container" class="contextmenu-container">
+            {% for image in map_images %}
+            <img class="contextmenu-item" id="{{ image.title }}" src="{{ image.map_image.url }}" width="150"
+                height="150" onclick="addToCanvas(this.id)">
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <div onmousedown="return false;">
+        <div id="wrapper">
+            <canvas id="myCanvas" width="578" height="200">
+            </canvas>
+            <div id="buttonWrapper">
+                <input type="button" id="plus" value="+"><input type="button" id="minus" value="-">
+            </div>
+        </div>
+        <h2 id="status">
+            0, 0
+        </h2>
+    </div>
+
+
+        <!-- HIDDEN DROPDOWN MENU-->
+        <div class="dropdown-menu" id="menu">
+            <h6 class="dropdown-header">Actions</h6>
+            <a class="dropdown-item" href="#"><i class="fas fa-plus-circle"></i> Add</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-edit"></i> Edit</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i> Delete <span
+                    class="delete-name"></span></a>
+        </div>
+
+{% endblock  %}

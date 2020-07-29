@@ -1,0 +1,26 @@
+{% extends "base/base.html" %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-lg bg-dark mynav" role="navigation" id="navbar">
+  <div class="container">
+    <div class="navbar-nav ml-auto">
+        <a class="nav-item nav-link" href="{% url 'game:maptool:map' game_id=game.id %}" class="btn btn-simple">Map</a>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container">
+  <h1>Update Game</h1>
+  <form method="POST" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+      <button type="submit" class="btn btn-primary">Update</button>
+    {% endbuttons %}
+  </form>
+</div>
+{% endblock %}

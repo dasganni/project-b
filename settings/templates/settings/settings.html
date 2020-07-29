@@ -1,0 +1,42 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% load bootstrap4 %}
+
+
+<!-- Complete page inherits html parts from base.html and places the content inside its body_title and content part-->
+{% block title_block %}
+<title>Settings</title>
+{% endblock %}
+
+
+
+
+{% block content %}
+<h1>User-Settings:</h1>
+<div class="container">
+<a href="{% url 'usermanager:user_change' %}" class="badge badge-primary">Change User Info</a>
+<a href="{% url 'account_change_password' %}" class="badge badge-primary">Change Password</a>
+<a href="{% url 'socialaccount_connections' %}" class="badge badge-primary">Edit Social Media Connections</a>
+
+</div>
+
+<!--Einbinden eines mitgegeben Formulars (CSRF ist ein Security Token der immer benoetigt wird!)-->
+<h1>Server-Settings:</h1>
+
+<div class="container">
+    <h2>Needs a Server restart to get active!</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <input type="submit" class"btn btn-primary" value="Submit (Needs Server restart to get active)" />
+        {% endbuttons %}
+    </form>
+</div>
+
+
+Using Facebook Auth:
+
+Under settings/general of developers.facebook.com you must enter your domain of your server in the Website URL like that: https://yourdomain.com/user/auth/facebook/callback
+
+{% endblock %}

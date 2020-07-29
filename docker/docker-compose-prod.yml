@@ -1,0 +1,55 @@
+version: '3.7'
+services:
+########The Django Application#########
+  pnp-manager:
+    image: pnp-manager:latest
+    ports:
+      - '8000:8000'
+    volumes:
+      - type: volume
+        source: pnp-manager-data
+        target: /pnp-manager/configs
+    environment:
+      - DJANGO_SUPERUSER_ADMIN=admin #Admin User, change Username and Email together, if you have a database already and want to add a new superuser with different parameters
+      - DJANGO_SUPERUSER_PASSWORD=admin #Admin Password
+      - DJANGO_SUPERUSER_EMAIL=admin@localhost.com #Admin Email-Address
+      - DJANGO_DB_ENGINE=django.db.backends.postgresql #engine to use, default postgresql
+      - DJANGO_DB_NAME=pnp-manager #!!MUST BE THE SAME AS IN POSTGRES_DB!! Change both together
+      - DJANGO_DB_USER=pnp-manager #!!MUST BE THE SAME AS IN POSTGRES_USER!! Change both together
+      - DJANGO_DB_PASSWORD=pnp-manager #!!MUST BE THE SAME AS IN POSTGRES_PASSWORD!! Change both together
+      - DJANGO_DB_HOST=database #!!MUST BE THE SAME AS SERVICE NAME. DEFAULT database!! Change both environments together as well as depends_on
+      - DJANGO_DB_PORT=5432 #default port of postgres. Only change, if you changed the port of the database or are using a different database.
+    networks:
+      - docker-network
+    depends_on: 
+      - database
+    healthcheck:
+      test: curl --fail -s http://localhost:8000/accounts/login/ || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+#########Database##############
+  database:
+    image: postgres:12.2
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=pnp-manager
+      - POSTGRES_USER=pnp-manager
+      - POSTGRES_PASSWORD=pnp-manager #should be changed at first start as well as DJANGO_DB_PASSWORD alltogether
+    networks:
+      - docker-network
+    volumes: 
+      - type: volume
+        source: db_data
+        target: /var/lib/postgresql/data/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+networks:
+    docker-network:
+volumes:
+   pnp-manager-data:
+   db_data:

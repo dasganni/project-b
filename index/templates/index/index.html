@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% extends "base/base.html" %}
+{% load static %}
+{% load bootstrap4 %}
+{% load my_filters %}
+<!-- Complete page inherits html parts from base.html and places the content inside its body_title and content part-->
+{% block title_block %}
+
+<title>Index</title>
+
+{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+
+<h1 class="text-primary"> You are logged in, following you will see Test-Content </h1>
+
+<!--Seite laedt-->
+<h1 class="blue">Testseite</h1>
+<h2>Eins Test war erfolgreich</h2>
+
+<!--Einbinden von einem Bild aus static-->
+<img src='{% static "images/examplepic.jpg" %}' alt="Picture Missing!" />
+
+<!--Einbinden einer mitgegebenen Variable aus Views inklusive Filter, der aus den Buchstaben Upper Case macht -->
+<h2>{{ variable_insert | upper }}</h2>
+
+<!--Das selbe mit einem selbst geschriebenen Filter unter dem Ordner templatetags -->
+<h2>{{ variable_insert | cutOut:'Django' }}</h2>
+
+<!--Einbinden von Variablen mit Datenbank-Daten aus Views-->
+<h2>Folgend Beispiele zum einbinden von Funktionen und Variablen in HTML direkt aus der Datenbank</h2>
+
+<div class="index">
+    {% if context.webpages_list %}
+
+    <table>
+        <thead>
+            <th>Site Name</th>
+            <th>Date Accessed</th>
+        </thead>
+
+        {% for page in webpages_list %}
+        <tr>
+            <td>{{ page.name }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>NO ACCESS RECORDS FOUND!</p>
+    {% endif %}
+</div>
+
+{% else %}
+
+<h1 class="text-primary"> Please Login to see content here! </h1>
+
+
+{% endif %}
+
+
+
+
+{% endblock %}

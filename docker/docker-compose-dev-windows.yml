@@ -1,0 +1,46 @@
+version: '3.7'
+services:
+########The Django Application#########
+  pnp-manager:
+    image: pnp-manager:latest
+    ports:
+      - '8000:8000'
+    volumes:
+      - type: bind
+        source: K:\\Users\\Mirko\\Desktop\\Git\\ProjectC
+        target: /pnp-manager
+    environment:
+      - DJANGO_SUPERUSER_ADMIN=admin #Admin User, change Username and Email together, if you have a database already and want to add a new superuser with different parameters
+      - DJANGO_SUPERUSER_PASSWORD=admin #Admin Password
+      - DJANGO_SUPERUSER_EMAIL=admin@localhost.com #Admin Email-Address
+      - DJANGO_SERVER_ENVIRONMENT=dev #development environment
+      - DJANGO_DB_ENGINE=django.db.backends.postgresql #engine to use, default postgresql
+      - DJANGO_DB_NAME=pnp-manager #!!MUST BE THE SAME AS IN POSTGRES_DB!! Change both together
+      - DJANGO_DB_USER=pnp-manager #!!MUST BE THE SAME AS IN POSTGRES_USER!! Change both together
+      - DJANGO_DB_PASSWORD=pnp-manager #!!MUST BE THE SAME AS IN POSTGRES_PASSWORD!! Change both together
+      - DJANGO_DB_HOST=database #!!MUST BE THE SAME AS SERVICE NAME. DEFAULT database!! Change both environments together as well as depends_on
+      - DJANGO_DB_PORT=5432 #default port of postgres. Only change, if you changed the port of the database or are using a different database.
+    networks:
+      - docker-network
+    depends_on: 
+      - database
+#########Database##############
+  database:
+    image: postgres:12.2
+    environment:
+      - POSTGRES_DB=pnp-manager
+      - POSTGRES_USER=pnp-manager
+      - POSTGRES_PASSWORD=pnp-manager
+    networks:
+      - docker-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    #volumes: #uncomment when you want to persist the database data
+    #  - type: bind
+    #    source: K:\\Users\\YOURUSERNAME\\Desktop\\dev_database #Change to your path 
+    #    target: /var/lib/postgresql/data/
+networks:
+    docker-network:

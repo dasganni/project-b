@@ -1,0 +1,21 @@
+Github Verwendung für Projekt C:
+
+
+Vor Docker, veraltet:
+
+1. Verwendung von Gitkraken mit Gitflow: Download Gitkraken gitkraken.com/download/windows64
+1.1. Python installieren. Mit Systemumgebungsvariable!
+1.2. Django installieren: In Kommandozeile pip install django
+1.3. Im Hauptordner: python manage.py runserver, um den Server zu starten
+2. Login to Github und Clone ProjectC Repo auf PC
+3. Wichtig! Oben links auf File drücken, dann Preferences, dann Git Flow und dort Git Flow initialisieren. Alles so lassen.
+4. Für jedes Feature, das man anfässt, einen neuen Feature Branch erstellen über Git-Flow. Dafür in Gitkraken
+auf den Pfeil "Open Git Flow" drücken und dann auf Feature. Das Feature passend zum Thema benennen. Immer nur Feature für den Develop erstellen.
+5. Es sollte für alle Features einen Issue geben in Github geben.
+6. Nachdem Feature fertig ist, in Gitkraken das Feature per Rechtsklick und Finish fertig stellen. Danach wird das Feature gelöscht und in Develop wieder eingefädelt. Dann den Develop noch einmal Pushen.
+7. Testen und sofern funktionsfähig, Pull Request von Develop in Master erstellen. Dies am besten in Github direkt. Dort im Text die Codewörter "fixes" oder "closes" verwenden, wenn damit ein Issue geschlossen wird. Dies zum Beispiel so: This Pullrequest does this and closes #5. Damit wird der Issue beim Mergen automatisch geschlossen und dokumentiert.
+8. Der Pullrequest sollte dann gemerged werden und der Master auf Funktionalität getestet werden.
+
+Mit Docker, folgt:
+
+.....
